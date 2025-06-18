@@ -8,7 +8,7 @@ const FIREBASE_CONFIG = {
     // Get these from Firebase Console > Project Settings > General > Your apps > Web app
     apiKey: "AIzaSyCmtZFfVfQqCO5UX4WGium5S2KU0w7ylkU",
     authDomain: "crossing-the-chasm.firebaseapp.com", // Your Project ID + .firebaseapp.com
-    // databaseURL: "https://voltara-motors-XXXXX-default-rtdb.firebaseio.com/", // Your Database URL
+    databaseURL: "https://crossing-the-chasm-default-rtdb.firebaseio.com/", // Your Database URL
     projectId: "crossing-the-chasm", // Your Project ID
     storageBucket: "crossing-the-chasm.firebasestorage.app", // Your Project ID + .appspot.com
     messagingSenderId: "1045107082696", // Your Sender ID
