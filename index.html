@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltara Motors: KBC - Team Selection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #adcdec 0%, #8bc0e3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h2 {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+        .team-link {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .team-link:hover {
+            background: #d6eaf8;
+            border-color: #3498db;
+            transform: translateY(-3px);
+        }
+        .start-game-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+        .start-game-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .start-game-btn:hover:not(:disabled) {
+            background: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Voltara Motors: KBC</h1>
+        <h2>Select Your Team to Begin</h2>
+        <div class="team-grid" id="teamGrid">
+            <!-- Team links will be generated here -->
+        </div>
+        <p style="margin-top: 20px; color: #7f8c8d;">Please wait for the administrator to start the game.</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyClRZQb35VM5bkpocgRk7pflzGkTtb0Dqw",
+            authDomain: "kbc-game-5b830.firebaseapp.com",
+            databaseURL: "https://kbc-game-5b830-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kbc-game-5b830",
+            storageBucket: "kbc-game-5b830.appspot.com",
+            messagingSenderId: "702022403294",
+            appId: "1:702022403294:web:41209d62429543fed5ee4f"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamGrid = document.getElementById('teamGrid');
+            const teamNames = [
+                "Team RAM ",
+                "Team GB",
+                "Team WiFi",
+                "Team AI",
+                "Team IP",
+                "Team WAF",
+                "Team TAG",
+                "Team SSO",
+                "Team TB",
+                "Team MB"
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const teamLink = document.createElement('a');
+                teamLink.href = `V5_working.html?team=${i + 1}`;
+                teamLink.className = 'team-link';
+                teamLink.textContent = teamNames[i];
+                teamLink.id = `team-link-${i + 1}`;
+                teamGrid.appendChild(teamLink);
+            }
+
+            // Listen for game state changes
+            const gameRef = database.ref('gameState');
+            gameRef.on('value', (snapshot) => {
+                const gameState = snapshot.val();
+                const statusText = document.querySelector('p');
+                if (gameState && gameState.isStarted) {
+                    statusText.textContent = 'The game has started! Please click on your team link.';
+                    statusText.style.color = '#27ae60';
+                } else {
+                    statusText.textContent = 'Please wait for the administrator to start the game.';
+                    statusText.style.color = '#7f8c8d';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
